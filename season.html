@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Season Predictor | Sahifasal</title>
+
+<style>
+
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f8fafc;
+color:#065f46;
+}
+main ::view-transition-image-pair strainhg
+mji
+
+
+#menu-toggle{display:none;}
+
+
+.topbar{
+height:65px;
+background:white;
+display:flex;
+align-items:center;
+padding:0 22px;
+gap:15px;
+box-shadow:0 4px 14px rgba(0,0,0,0.08);
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+.menu-icon{
+font-size:24px;
+cursor:pointer;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:10px;
+font-weight:600;
+color:#16a34a;
+}
+
+.app-logo{
+width:42px;
+height:42px;
+border-radius:50%;
+object-fit:cover;
+}
+
+
+.sidebar{
+position:fixed;
+top:65px;
+left:-260px;
+width:260px;
+height:100%;
+background:white;
+padding:20px;
+transition:.35s;
+display:flex;
+flex-direction:column;
+border-right:1px solid #e2e8f0;
+}
+
+.sidebar a{
+color:#065f46;
+text-decoration:none;
+padding:12px;
+border-radius:8px;
+margin:5px 0;
+transition:.25s;
+font-weight:500;
+}
+
+.sidebar a:hover{
+background:#dcfce7;
+transform:translateX(5px);
+}
+
+#menu-toggle:checked ~ .sidebar{
+left:0;
+}
+
+
+.content{
+padding:35px 8%;
+transition:.35s;
+}
+
+#menu-toggle:checked ~ .content{
+margin-left:260px;
+}
+
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:22px;
+margin-top:25px;
+}
+
+
+.card{
+background:white;
+padding:25px;
+border-radius:14px;
+border:1px solid #dcfce7;
+box-shadow:0 8px 22px rgba(0,0,0,0.05);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 12px 25px rgba(0,0,0,0.08);
+}
+
+.card h2{
+margin-bottom:8px;
+color:#16a34a;
+}
+
+
+button{
+padding:12px 18px;
+background:#16a34a;
+border:none;
+border-radius:8px;
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+background:#22c55e;
+transform:scale(1.03);
+}
+
+
+.result{
+margin-top:15px;
+font-size:18px;
+line-height:1.6;
+color:#16a34a;
+}
+
+
+footer{
+margin-top:40px;
+background:white;
+text-align:center;
+padding:16px;
+color:#64748b;
+border-top:1px solid #e2e8f0;
+}
+
+
+@media(max-width:768px){
+
+.content{
+padding:25px 18px;
+}
+
+#menu-toggle:checked ~ .content{
+margin-left:0;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<input type="checkbox" id="menu-toggle">
+
+
+<header class="topbar">
+<label for="menu-toggle" class="menu-icon">☰</label>
+
+<div class="logo">
+<img src="final logo.png" class="app-logo">
+<span>Sahifasal Season Intelligence</span>
+</div>
+</header>
+
+
+<div class="sidebar">
+<a href="dashboard.html"> Dashboard</a>
+<a href="climate.html"> Climate Intelligence</a>
+<a href="market.html"> Market Demand</a>
+<a href="risk.html">Risk Analysis</a>
+<a href="planner.html"> Smart Planner</a>
+<a href="profit.html"> Profit Calculator</a>
+<a href="govt.html">Govt Schemes</a>
+<a href="profile.html"> Profile</a>
+<a href="index.html"> Logout</a>
+</div>
+
+
+<div class="content">
+
+<h1>🌦 Season Duration Predictor</h1>
+<p style="color:#64748b;margin-bottom:25px;">
+Predict how long the current season will continue using climate trends.
+</p>
+
+<button onclick="predictSeason()">Predict Current Season</button>
+
+<div class="grid">
+
+<div class="card">
+<h2> Current Season</h2>
+<div id="seasonName" class="result">--</div>
+</div>
+
+<div class="card">
+<h2> Estimated Duration</h2>
+<div id="seasonDuration" class="result">--</div>
+</div>
+
+<div class="card">
+<h2> Rainfall Trend</h2>
+<div id="rainTrend" class="result">--</div>
+</div>
+
+<div class="card">
+<h2>Sowing Recommendation</h2>
+<div id="cropAdvice" class="result">--</div>
+</div>
+
+</div>
+
+</div>
+
+<footer>
+© 2026 Sahifasal — Smart Agriculture Intelligence
+</footer>
+<script>
+async function predictSeason(){
+
+  const lat = 20.59;
+  const lon = 78.96;
+
+  const url =
+  `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}
+  &daily=temperature_2m_max,temperature_2m_min,precipitation_sum
+  &timezone=Asia/Kolkata`.replace(/\s/g,'');
+
+  try{
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const tempsMax = data.daily.temperature_2m_max;
+    const tempsMin = data.daily.temperature_2m_min;
+    const rain = data.daily.precipitation_sum;
+    const dates = data.daily.time;
+
+    let hot=0, cold=0, rainy=0;
+
+    
+    for(let i=0;i<tempsMax.length;i++){
+      if(tempsMax[i] > 35) hot++;
+      if(tempsMin[i] < 18) cold++;
+      if(rain[i] > 5) rainy++;
+    }
+
+    let season="", duration="", advice="", rainTrend="", explanation="";
+
+    
+    if(rainy > 5){
+      season="🌧 Monsoon";
+
+      
+      let lastRainIndex = 0;
+      for(let i=0;i<rain.length;i++){
+        if(rain[i] > 3) lastRainIndex = i;
+      }
+
+      const endDate = new Date(dates[lastRainIndex]);
+      const today = new Date();
+      const remainingDays =
+        Math.max(1, Math.ceil((endDate - today)/(1000*60*60*24)));
+
+      duration =
+        `Monsoon conditions expected for approx ${remainingDays} more days (until ${endDate.toDateString()}).`;
+
+      rainTrend =
+        `Average rainfall forecast: ${(rain.reduce((a,b)=>a+b,0)/rain.length).toFixed(1)} mm/day.
+        Continuous moisture conditions likely.`;
+
+      advice =
+        `Soil moisture will remain high. Ideal for rice, soybean and cotton.
+        Avoid over-irrigation and monitor fungal disease risk.`;
+
+      explanation =
+        `Weather model shows repeated precipitation clusters with stable humidity.
+        Seasonal withdrawal signals are not yet detected.`;
+
+    }
+
+    else if(hot > 8){
+
+      season="☀ Summer";
+
+      let lastHotIndex = 0;
+      for(let i=0;i<tempsMax.length;i++){
+        if(tempsMax[i] > 34) lastHotIndex = i;
+      }
+
+      const endDate = new Date(dates[lastHotIndex]);
+      const today = new Date();
+      const remainingDays =
+        Math.max(1, Math.ceil((endDate - today)/(1000*60*60*24)));
+
+      duration =
+        `High-temperature phase likely to continue for about ${remainingDays} days (till ${endDate.toDateString()}).`;
+
+      rainTrend =
+        `Low precipitation expected. Heat stress probability high with avg max temperature ${
+          (tempsMax.reduce((a,b)=>a+b,0)/tempsMax.length).toFixed(1)
+        }°C.`;
+
+      advice =
+        `Adopt drip irrigation, mulching and heat-resistant crops like millet & maize.
+        Irrigate during early morning or evening only.`;
+
+      explanation =
+        `Persistent high pressure system detected causing temperature stability
+        and delayed rainfall transition.`;
+
+    }
+
+    else if(cold > 6){
+
+      season="❄ Winter";
+
+      let lastColdIndex = 0;
+      for(let i=0;i<tempsMin.length;i++){
+        if(tempsMin[i] < 20) lastColdIndex = i;
+      }
+
+      const endDate = new Date(dates[lastColdIndex]);
+      const today = new Date();
+      const remainingDays =
+        Math.max(1, Math.ceil((endDate - today)/(1000*60*60*24)));
+
+      duration =
+        `Cool weather expected for approx ${remainingDays} more days (until ${endDate.toDateString()}).`;
+
+      rainTrend =
+        `Dry atmosphere with minimal rainfall probability.
+        Night temperatures remain low.`;
+
+      advice =
+        `Best period for wheat, mustard and peas.
+        Protect crops from morning frost and maintain soil nutrition.`;
+
+      explanation =
+        `Temperature inversion patterns indicate stable winter air mass
+        before gradual warming trend begins.`;
+
+    }
+
+    else{
+
+      season="🌤 Transition Season";
+
+      duration =
+        `Weather transition phase expected for next 7–20 days before next dominant season establishes.`;
+
+      rainTrend =
+        `Mixed rainfall signals with fluctuating temperature trends.`;
+
+      advice =
+        `Prefer short-duration crops and flexible irrigation planning.`;
+
+      explanation =
+        `Atmospheric instability detected — seasonal shift underway.`;
+    }
+
+    
+    document.getElementById("seasonName").innerText = season;
+
+    document.getElementById("seasonDuration").innerText =
+      duration + "\n\n" + explanation;
+
+    document.getElementById("cropAdvice").innerText = advice;
+
+    document.getElementById("rainTrend").innerText = rainTrend;
+
+  }
+  catch(err){
+    console.error(err);
+    alert("Weather data failed to load. Check internet or API.");
+  }
+}
+</script>
+
+</body>
+</html

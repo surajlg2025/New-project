@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farm Setup | Sahifasal</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* ===== GLOBAL ===== */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f8fafc;
+color:#065f46;
+min-height:100vh;
+display:flex;
+flex-direction:column;
+}
+
+/* ===== TOPBAR ===== */
+.topbar{
+height:65px;
+background:white;
+display:flex;
+align-items:center;
+padding:0 22px;
+gap:12px;
+box-shadow:0 3px 12px rgba(0,0,0,0.08);
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+.logo-box{
+width:42px;
+height:42px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.logo-box img{
+height:42px;
+width:42px;
+border-radius:50%;
+}
+
+.app-name{
+font-size:20px;
+font-weight:600;
+color:#16a34a;
+}
+
+/* ===== WRAPPER ===== */
+.wrapper{
+flex:1;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:25px;
+}
+
+/* ===== CARD ===== */
+.setup-card{
+width:700px;
+background:white;
+padding:35px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+transition:.35s;
+}
+
+.setup-card h2{
+margin-bottom:10px;
+color:#16a34a;
+}
+
+.subtitle{
+color:#64748b;
+margin-bottom:25px;
+}
+
+/* ===== FORM GRID ===== */
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
+
+.form-group label{
+font-size:14px;
+color:#64748b;
+}
+
+.form-group input,
+.form-group select{
+width:100%;
+padding:11px;
+margin-top:6px;
+border-radius:8px;
+border:1px solid #e5e7eb;
+background:#f1f5f9;
+color:#065f46;
+outline:none;
+transition:.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+box-shadow:0 0 0 2px #16a34a;
+}
+
+/* ===== BUTTONS ===== */
+.btn-area{
+display:flex;
+justify-content:space-between;
+margin-top:25px;
+}
+
+.btn{
+padding:12px 22px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:15px;
+transition:.3s;
+font-weight:600;
+}
+
+.primary{
+background:#16a34a;
+color:white;
+}
+
+.primary:hover{
+background:#22c55e;
+transform:scale(1.03);
+}
+
+.skip{
+background:#e5e7eb;
+color:#27292b;
+}
+
+.skip:hover{
+background:#d1fae5;
+transform:scale(1.03);
+}
+
+
+.footer{
+text-align:center;
+padding:12px;
+font-weight: 600;
+color:white;
+margin-top:30px;
+background-color: black;
+
+}
+
+
+@media(max-width:720px){
+.grid{
+grid-template-columns:1fr;
+}
+.setup-card{
+width:100%;
+padding:25px;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+
+<div class="topbar">
+<div class="logo-box">
+<img src="final logo.png" alt="Sahifasal Logo">
+</div>
+<div class="app-name">Sahifasal</div>
+</div>
+
+
+<div class="wrapper">
+
+<div class="setup-card">
+
+<h2>Farm Setup</h2>
+<p class="subtitle">Help us personalize crop recommendations for you</p>
+
+<div class="grid">
+
+<div class="form-group">
+<label>Farm Size (Acres)</label>
+<input type="number" placeholder="e.g. 5">
+</div>
+
+<div class="form-group">
+<label>Soil Type</label>
+<select>
+<option>Select Soil</option>
+<option>Black Soil</option>
+<option>Red Soil</option>
+<option>Alluvial Soil</option>
+<option>Sandy Soil</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Main Water Source</label>
+<select>
+<option>Canal</option>
+<option>Borewell</option>
+<option>Rain-fed</option>
+<option>River</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Primary Crop</label>
+<select>
+<option>Wheat</option>
+<option>Maize</option>
+<option>Soybean</option>
+<option>Cotton</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Farming Experience (Years)</label>
+<input type="number" placeholder="e.g. 10">
+</div>
+
+<div class="form-group">
+<label>Preferred Market Distance (km)</label>
+<input type="number" placeholder="e.g. 25">
+</div>
+
+</div>
+
+<div class="btn-area">
+<button class="btn skip" onclick="location.href='dashboard.html'">
+Skip Setup
+</button>
+
+<button class="btn primary" onclick="location.href='dashboard.html'">
+Save & Continue
+</button>
+</div>
+
+</div>
+
+</div>
+
+<div class="footer">
+© 2026 Sahifasal — Farm Intelligence Setup
+</div>
+
+</body>
+</html>
