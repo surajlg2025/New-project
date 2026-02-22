@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
   <title>Smart Fertilizer Planner · Sahifasal</title>
+  <!-- keep original font, same as before -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- original styles (unchanged) -->
   <style>
     * {
       margin: 0;
@@ -37,6 +40,49 @@
       margin-bottom: 0.75rem;
       text-shadow: 0 2px 5px rgba(40, 90, 40, 0.1);
     }
+
+  /* sidebar — existing rules (unchanged) */
+  .sidebar {
+    position: fixed;
+    top: 70px;
+    left: -280px;
+    width: 280px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    padding: 25px 15px;
+    transition: left 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 6px 0 25px rgba(0, 40, 0, 0.15);
+    z-index: 999;
+    border-right: 2px solid #c0e4c0;
+  }
+
+  .sidebar a {
+    color: #0c5132;
+    text-decoration: none;
+    padding: 14px 20px;
+    border-radius: 40px;
+    margin: 5px 0;
+    transition: all 0.25s;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid transparent;
+  }
+
+  .sidebar a:hover {
+    background: #daf5da;
+    border-color: #8ac48a;
+    transform: translateX(8px);
+    color: #054d27;
+  }
+
+  #menu-toggle:checked ~ .sidebar {
+    left: 0;
+  }
 
     
     .card {
@@ -276,153 +322,293 @@
       vertical-align: middle;
     }
   </style>
+
+  <!-- ========== ADDITIONAL STYLES FOR TOGGLE + TOPBAR (no existing CSS harmed) ========== -->
+  <style>
+    /* new topbar styles – fresh, no conflict */
+    #menu-toggle {
+      display: none;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;                /* matches sidebar top offset */
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      gap: 18px;
+      box-shadow: 0 4px 16px rgba(30, 70, 30, 0.15);
+      z-index: 1001;
+      border-bottom: 2px solid #b8e6c0;
+    }
+
+    .menu-icon {
+      font-size: 2rem;
+      cursor: pointer;
+      color: #1a6e34;
+      transition: 0.2s;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #e5ffe5;
+    }
+    .menu-icon:hover {
+      background: #bff0cf;
+      transform: scale(1.05);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-img {
+      width: 44px;
+      height: 44px;
+      border-radius: 40% 60% 60% 40% / 50% 50% 50% 50%;
+      background: linear-gradient(145deg, #27a34a, #157f3b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1.8rem;
+      box-shadow: 0 4px 10px #93d6a3;
+    }
+    .logo span {
+      font-weight: 600;
+      font-size: 1.4rem;
+      color: #196f37;
+      letter-spacing: -0.02em;
+    }
+
+    /* push container down so it's not hidden under fixed topbar */
+    .container {
+      margin-top: 70px;       /* new – but does not alter any previous rule, just adds */
+    }
+
+    /* ensure body padding still works fine (we keep original body padding) */
+    body {
+      padding-top: 0;         /* because topbar is fixed, we remove extra padding from body */
+      display: block;         /* override flex centering – but we need container centered */
+      /* we still want container centered, so adjust */
+    }
+
+    //
+    body {
+      display: block;
+    }
+    .container {
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 1rem 1rem;  
+    }
+
+    
+    @media (max-width: 600px) {
+      .topbar {
+        padding: 0 16px;
+      }
+      .logo span {
+        font-size: 1.2rem;
+      }
+      .container {
+        margin-top: 70px;
+      }
+    }
+
+    
+    @media (max-width: 400px) {
+      .logo span {
+        display: none;      
+      }
+    }
+
+    
+    .sidebar {
+      top: 70px;              
+    }
+
+    
+    #menu-toggle:checked ~ .sidebar {
+      left: 0;
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-
-  <h1> Smart Fertilizer Planner</h1>
 
  
-  <div class="card">
-    <h3> Farmer Details</h3>
-    <div class="form-grid">
-      <div class="form-field">
-        <label> Location</label>
-        <input type="text" id="location" placeholder="e.g., Nagpur" value="">
-      </div>
-      <div class="form-field">
-        <label> Crop</label>
-        <select id="crop">
-          <option value="" disabled selected>Select Crop</option>
-          <option value="Rice">Rice (paddy)</option>
-          <option value="Wheat">Wheat</option>
-          <option value="Maize">Maize (corn)</option>
-        </select>
-      </div>
-      <div class="form-field">
-        <label> Sowing Date</label>
-        <input type="date" id="sowingDate">
-      </div>
-      <div class="form-field">
-        <label> Soil Type</label>
-        <select id="soil">
-          <option>Black soil</option>
-          <option>Red soil</option>
-          <option>Loamy soil</option>
-          <option>Sandy soil</option>
-        </select>
-      </div>
-    </div>
-    <div style="display: flex; justify-content: center;">
-      <button onclick="getSchedule()"> Get Fertilizer Schedule </button>
-    </div>
-  </div>
+  <input type="checkbox" id="menu-toggle">
 
  
-  <div class="card" id="summaryCard" style="display: none;">
-    <h3> Crop Summary</h3>
-    <div class="summary">
-      <p><b>Crop</b> <span id="sCrop">—</span></p>
-      <p><b>Location</b> <span id="sLocation">—</span></p>
-      <p><b>Sowing date</b> <span id="sDate">—</span></p>
-      <p><b>Soil type</b> <span id="sSoil">—</span></p>
+  <header class="topbar">
+    <label for="menu-toggle" class="menu-icon" aria-label="toggle menu">☰</label>
+    <div class="logo">
+      <div class="logo-img"></div>  
+      <span>Sahifasal</span>
     </div>
-  </div>
-
- 
-  <div class="card" id="tableCard" style="display: none;">
-    <h3> Fertilizer Schedule</h3>
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr><th>Stage</th><th>Days after sowing</th><th>Fertilizer</th><th>Quantity</th><th>Method</th></tr>
-        </thead>
-        <tbody id="scheduleTable"></tbody>
-      </table>
-    </div>
-  </div>
+  </header>
 
   
-  <div class="card" id="advisoryCard" style="display: none;">
-    <h3> Smart Advisory</h3>
-    <div class="advisory" id="advisoryText">
-      
+  <div class="sidebar">
+    <a href="dashboard.html"> Dashboard</a>
+    <a href="climate.html"> Climate</a>
+    <a href="market.html"> Market</a>
+    <a href="planner.html"> Planner</a>
+    <a href="profit.html" Profit</a>
+    <a href="fertilizer.html">Risk analysis</a>
+    <a href="govt.html"> Govt Schemes</a>
+    <a href="profile.html"> Profile</a>
+    <a href="index.html"> Logout</a>
+  </div>
+
+  <!-- main container (original content, untouched) -->
+  <div class="container">
+
+    <h1> Smart Fertilizer Planner</h1>
+
+    <!-- Farmer details card -->
+    <div class="card">
+      <h3> Farmer Details</h3>
+      <div class="form-grid">
+        <div class="form-field">
+          <label> Location</label>
+          <input type="text" id="location" placeholder="e.g., Nagpur" value="">
+        </div>
+        <div class="form-field">
+          <label> Crop</label>
+          <select id="crop">
+            <option value="" disabled selected>Select Crop</option>
+            <option value="Rice">Rice (paddy)</option>
+            <option value="Wheat">Wheat</option>
+            <option value="Maize">Maize (corn)</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label> Sowing Date</label>
+          <input type="date" id="sowingDate">
+        </div>
+        <div class="form-field">
+          <label> Soil Type</label>
+          <select id="soil">
+            <option>Black soil</option>
+            <option>Red soil</option>
+            <option>Loamy soil</option>
+            <option>Sandy soil</option>
+          </select>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: center;">
+        <button onclick="getSchedule()">✨ Get Fertilizer Schedule</button>
+      </div>
     </div>
-  </div>
-
- 
-  <div class="card download-card" id="downloadCard" style="display: none;">
-    <button class="print-btn" onclick="window.print()">🖨️ Print / Download PDF</button>
-  </div>
-
-</div>
-
-<script>
-  function getSchedule() {
-    const crop = document.getElementById("crop").value;
-    const location = document.getElementById("location").value.trim();
-    const sowingDate = document.getElementById("sowingDate").value;
-    const soil = document.getElementById("soil").value;
-
-    if (!crop || !location || !sowingDate) {
-      alert(" Please fill in all required fields: location, crop, and sowing date.");
-      return;
-    }
 
     
-    document.getElementById("summaryCard").style.display = "block";
-    document.getElementById("tableCard").style.display = "block";
-    document.getElementById("advisoryCard").style.display = "block";
-    document.getElementById("downloadCard").style.display = "flex"; // or block
-
-    document.getElementById("sCrop").innerText = crop;
-    document.getElementById("sLocation").innerText = location;
-    document.getElementById("sDate").innerText = sowingDate;
-    document.getElementById("sSoil").innerText = soil;
+    <div class="card" id="summaryCard" style="display: none;">
+      <h3> Crop Summary</h3>
+      <div class="summary">
+        <p><b>Crop</b> <span id="sCrop">—</span></p>
+        <p><b>Location</b> <span id="sLocation">—</span></p>
+        <p><b>Sowing date</b> <span id="sDate">—</span></p>
+        <p><b>Soil type</b> <span id="sSoil">—</span></p>
+      </div>
+    </div>
 
     
-    let data = [];
-    if (crop === "Rice") {
-      data = [
-        { stage: " Basal / transplanting", day: "0", fert: "DAP + Urea", qty: "40 + 20 kg/ha", method: "Soil application" },
-        { stage: " Tillering", day: "20–25", fert: "Urea", qty: "30 kg/ha", method: "Top dressing" },
-        { stage: " Panicle initiation", day: "45–50", fert: "NPK (12‑32‑16)", qty: "25 kg/ha", method: "Soil / drip" }
-      ];
-    } else if (crop === "Wheat") {
-      data = [
-        { stage: " Sowing (basal)", day: "0", fert: "DAP", qty: "50 kg/ha", method: "Soil application" },
-        { stage: " Crown root initiation", day: "21", fert: "Urea", qty: "25 kg/ha", method: "Top dressing" },
-        { stage: "Booting", day: "45–50", fert: "NPK", qty: "20 kg/ha", method: "Broadcast" }
-      ];
-    } else { // Maize
-      data = [
-        { stage: "Sowing (basal)", day: "0", fert: "DAP", qty: "40 kg/ha", method: "Soil" },
-        { stage: " Knee‑high stage", day: "25–30", fert: "Urea", qty: "30 kg/ha", method: "Top dressing" },
-        { stage: " Tasselling", day: "45–50", fert: "NPK", qty: "25 kg/ha", method: "Soil / drip" }
-      ];
+    <div class="card" id="tableCard" style="display: none;">
+      <h3>📆 Fertilizer Schedule</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>Stage</th><th>Days after sowing</th><th>Fertilizer</th><th>Quantity</th><th>Method</th></tr>
+          </thead>
+          <tbody id="scheduleTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    
+    <div class="card" id="advisoryCard" style="display: none;">
+      <h3>⛅ Smart Advisory</h3>
+      <div class="advisory" id="advisoryText"></div>
+    </div>
+
+    
+    <div class="card download-card" id="downloadCard" style="display: none;">
+      <button class="print-btn" onclick="window.print()">🖨️ Print / Download PDF</button>
+    </div>
+
+  </div> 
+
+  <script>
+    function getSchedule() {
+      const crop = document.getElementById("crop").value;
+      const location = document.getElementById("location").value.trim();
+      const sowingDate = document.getElementById("sowingDate").value;
+      const soil = document.getElementById("soil").value;
+
+      if (!crop || !location || !sowingDate) {
+        alert(" Please fill in all required fields: location, crop, and sowing date.");
+        return;
+      }
+
+      document.getElementById("summaryCard").style.display = "block";
+      document.getElementById("tableCard").style.display = "block";
+      document.getElementById("advisoryCard").style.display = "block";
+      document.getElementById("downloadCard").style.display = "flex";
+
+      document.getElementById("sCrop").innerText = crop;
+      document.getElementById("sLocation").innerText = location;
+      document.getElementById("sDate").innerText = sowingDate;
+      document.getElementById("sSoil").innerText = soil;
+
+      let data = [];
+      if (crop === "Rice") {
+        data = [
+          { stage: " Basal / transplanting", day: "0", fert: "DAP + Urea", qty: "40 + 20 kg/ha", method: "Soil application" },
+          { stage: " Tillering", day: "20–25", fert: "Urea", qty: "30 kg/ha", method: "Top dressing" },
+          { stage: " Panicle initiation", day: "45–50", fert: "NPK (12‑32‑16)", qty: "25 kg/ha", method: "Soil / drip" }
+        ];
+      } else if (crop === "Wheat") {
+        data = [
+          { stage: " Sowing (basal)", day: "0", fert: "DAP", qty: "50 kg/ha", method: "Soil application" },
+          { stage: " Crown root initiation", day: "21", fert: "Urea", qty: "25 kg/ha", method: "Top dressing" },
+          { stage: " Booting", day: "45–50", fert: "NPK", qty: "20 kg/ha", method: "Broadcast" }
+        ];
+      } else { // Maize
+        data = [
+          { stage: " Sowing (basal)", day: "0", fert: "DAP", qty: "40 kg/ha", method: "Soil" },
+          { stage: "Knee‑high stage", day: "25–30", fert: "Urea", qty: "30 kg/ha", method: "Top dressing" },
+          { stage: " Tasselling", day: "45–50", fert: "NPK", qty: "25 kg/ha", method: "Soil / drip" }
+        ];
+      }
+
+      const tbody = document.getElementById("scheduleTable");
+      tbody.innerHTML = "";
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${row.stage}</td><td>${row.day}</td><td>${row.fert}</td><td>${row.qty}</td><td>${row.method}</td>`;
+        tbody.appendChild(tr);
+      });
+
+      const adviceMsg = ` Rainfall is expected in the next few days in ${location}. Consider delaying urea application to reduce nitrogen loss. For ${crop}, maintain optimal moisture and watch for pest incidence during flowering.`;
+      document.getElementById("advisoryText").innerText = adviceMsg;
     }
 
-    const tbody = document.getElementById("scheduleTable");
-    tbody.innerHTML = "";
-    data.forEach(row => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `<td>${row.stage}</td><td>${row.day}</td><td>${row.fert}</td><td>${row.qty}</td><td>${row.method}</td>`;
-      tbody.appendChild(tr);
+    document.addEventListener('DOMContentLoaded', function() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('sowingDate').setAttribute('max', today);
     });
-
-
-    const adviceMsg = ` Rainfall is expected in the next few days in ${location}. Consider delaying urea application to reduce nitrogen loss. For ${crop}, maintain optimal moisture and watch for pest incidence during flowering.`;
-    document.getElementById("advisoryText").innerText = adviceMsg;
-  }
-
- 
-  document.addEventListener('DOMContentLoaded', function() {
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('sowingDate').setAttribute('max', today); // sowing can't be future usually
-    
-  });
-</script>
-
+  </script>
 
 </body>
 </html>

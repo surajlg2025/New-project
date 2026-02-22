@@ -1,271 +1,414 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Farm Setup | Sahifasal</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+  <title>Farm Setup · Sahifasal</title>
+  <
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    :root {
+      --primary: #1f8b4c;
+      --primary-light: #4caf7a;
+      --primary-soft: #d9f0e3;
+      --primary-dark: #0f5c2e;
+      --text-dark: #0c4b2b;
+      --text-muted: #416b52;
+      --bg-light: #f1f9f1;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --shadow-sm: 0 12px 28px -10px rgba(20, 70, 30, 0.2);
+      --shadow-hover: 0 24px 42px -12px #1b6e3a80;
+      --border-light: #c4e6cf;
+      --border-focus: #3cab6b;
+      --gradient-bg: linear-gradient(145deg, #f0fbf4 0%, #e3f5e9 100%);
+    }
 
-<style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--gradient-bg);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
 
-/* ===== GLOBAL ===== */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
+    
+    .topbar {
+      height: 75px;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      gap: 1rem;
+      box-shadow: 0 4px 18px rgba(0, 40, 20, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid #b8e3cb;
+    }
 
-body{
-background:#f8fafc;
-color:#065f46;
-min-height:100vh;
-display:flex;
-flex-direction:column;
-}
+    .logo-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #f1fff1, #c8f0d5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px #a7d8b7;
+    }
 
-/* ===== TOPBAR ===== */
-.topbar{
-height:65px;
-background:white;
-display:flex;
-align-items:center;
-padding:0 22px;
-gap:12px;
-box-shadow:0 3px 12px rgba(0,0,0,0.08);
-position:sticky;
-top:0;
-z-index:1000;
-}
+    .logo-box img {
+      height: 42px;
+      width: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid white;
+    }
 
-.logo-box{
-width:42px;
-height:42px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-}
+    .app-name {
+      font-size: 1.7rem;
+      font-weight: 650;
+      background: linear-gradient(135deg, #0d6b31, #2da160);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
 
-.logo-box img{
-height:42px;
-width:42px;
-border-radius:50%;
-}
+    
+    .wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1.5rem;
+    }
 
-.app-name{
-font-size:20px;
-font-weight:600;
-color:#16a34a;
-}
+    
+    .setup-card {
+      width: 800px;
+      max-width: 100%;
+      background: var(--card-bg);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      padding: 2.5rem 2.8rem;
+      border-radius: 42px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.25s ease, box-shadow 0.35s ease;
+      border: 1px solid rgba(190, 240, 200, 0.7);
+    }
 
-/* ===== WRAPPER ===== */
-.wrapper{
-flex:1;
-display:flex;
-justify-content:center;
-align-items:center;
-padding:25px;
-}
+    .setup-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
+      background: rgba(255, 255, 255, 0.98);
+    }
 
-/* ===== CARD ===== */
-.setup-card{
-width:700px;
-background:white;
-padding:35px;
-border-radius:18px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-transition:.35s;
-}
+    .setup-card h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      color: #166b38;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-.setup-card h2{
-margin-bottom:10px;
-color:#16a34a;
-}
+    .setup-card h2::before {
+      content: "";
+      font-size: 2rem;
+    }
 
-.subtitle{
-color:#64748b;
-margin-bottom:25px;
-}
+    .subtitle {
+      color: #436e54;
+      margin-bottom: 2rem;
+      font-weight: 400;
+      font-size: 1.1rem;
+      border-left: 5px solid #4fb477;
+      padding-left: 1rem;
+      background: #eefbef;
+      border-radius: 0 30px 30px 0;
+      width: fit-content;
+      padding: 0.6rem 1.6rem;
+    }
 
-/* ===== FORM GRID ===== */
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-}
+   
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.8rem;
+    }
 
-.form-group label{
-font-size:14px;
-color:#64748b;
-}
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
 
-.form-group input,
-.form-group select{
-width:100%;
-padding:11px;
-margin-top:6px;
-border-radius:8px;
-border:1px solid #e5e7eb;
-background:#f1f5f9;
-color:#065f46;
-outline:none;
-transition:.3s;
-}
+    .form-group label {
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #1f5e33;
+      margin-bottom: 6px;
+      letter-spacing: 0.02rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-.form-group input:focus,
-.form-group select:focus{
-box-shadow:0 0 0 2px #16a34a;
-}
+    .form-group label::before {
+      content: "";
+      font-size: 1rem;
+      opacity: 0.8;
+    }
 
-/* ===== BUTTONS ===== */
-.btn-area{
-display:flex;
-justify-content:space-between;
-margin-top:25px;
-}
+    
+    
 
-.btn{
-padding:12px 22px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-font-size:15px;
-transition:.3s;
-font-weight:600;
-}
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      background: #f5fcf7;
+      border: 2px solid #d1ecdc;
+      border-radius: 30px;
+      font-size: 1rem;
+      color: #153e23;
+      outline: none;
+      transition: 0.2s;
+      font-weight: 400;
+    }
 
-.primary{
-background:#16a34a;
-color:white;
-}
+    .form-group input:hover,
+    .form-group select:hover {
+      border-color: #91cfaa;
+      background: #fafffd;
+    }
 
-.primary:hover{
-background:#22c55e;
-transform:scale(1.03);
-}
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px #a5e0bd;
+      background: #ffffff;
+    }
 
-.skip{
-background:#e5e7eb;
-color:#27292b;
-}
+    
+    .form-group input::placeholder {
+      color: #92ab9a;
+      font-weight: 300;
+      font-size: 0.9rem;
+    }
 
-.skip:hover{
-background:#d1fae5;
-transform:scale(1.03);
-}
+    
+    .btn-area {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2.5rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
 
+    .btn {
+      padding: 0.9rem 2.2rem;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      letter-spacing: 0.3px;
+      border: 1px solid transparent;
+    }
 
-.footer{
-text-align:center;
-padding:12px;
-font-weight: 600;
-color:white;
-margin-top:30px;
-background-color: black;
+    .primary {
+      background: #1a7f3f;
+      color: white;
+      box-shadow: 0 10px 18px -8px #1a7f3fcc;
+      flex: 1;
+    }
 
-}
+    .primary:hover {
+      background: #0f6b31;
+      transform: scale(1.02);
+      box-shadow: 0 18px 24px -8px #0a5929;
+      border-color: #bef5d2;
+    }
 
+    .skip {
+      background: #eaf5ee;
+      color: #1b5e34;
+      border: 2px solid #a2dbb7;
+      flex: 0.8;
+    }
 
-@media(max-width:720px){
-.grid{
-grid-template-columns:1fr;
-}
-.setup-card{
-width:100%;
-padding:25px;
-}
-}
+    .skip:hover {
+      background: #d4f0de;
+      transform: translateY(-3px);
+      border-color: #7fc99b;
+      box-shadow: 0 12px 18px -10px #a2dbb7;
+    }
 
-</style>
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    
+    .footer {
+      text-align: center;
+      padding: 1.2rem;
+      font-weight: 500;
+      color: #daf1e1;
+      background: #1f3d2b;
+      border-top: 3px solid #3d8652;
+      font-size: 1rem;
+      letter-spacing: 0.4px;
+    }
+
+    
+    @media (max-width: 700px) {
+      .topbar { padding: 0 1rem; }
+      .app-name { font-size: 1.3rem; }
+      .logo-box { width: 40px; height: 40px; }
+      .logo-box img { width: 36px; height: 36px; }
+
+      .setup-card { padding: 2rem 1.5rem; }
+      .setup-card h2 { font-size: 1.9rem; }
+      .subtitle { font-size: 1rem; }
+
+      .grid {
+        grid-template-columns: 1fr;  
+        gap: 1.2rem;
+      }
+
+      .btn-area {
+        flex-direction: column-reverse;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 0.9rem 1.5rem;
+        font-size: 1rem;
+      }
+
+      .skip, .primary {
+        flex: none;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .setup-card h2 { font-size: 1.6rem; }
+      .setup-card h2::before { font-size: 1.6rem; }
+    }
+
+    
+    .logo-box::after {
+      display: none;
+    }
+
+   
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: radial-gradient(#b2e0c2 1.2px, transparent 1.2px);
+      background-size: 30px 30px;
+      opacity: 0.2;
+      pointer-events: none;
+      z-index: -1;
+    }
+  </style>
 </head>
-
 <body>
 
+  
+  <div class="topbar">
+    <div class="logo-box">
+      
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2333b864' /%3E%3Cpath d='M30 45 L50 25 L70 45 L60 68 L40 68 Z' fill='%23fef9c3' /%3E%3C/svg%3E" alt="Sahifasal">
+    </div>
+    <div class="app-name">Sahifasal</div>
+  </div>
 
-<div class="topbar">
-<div class="logo-box">
-<img src="final logo.png" alt="Sahifasal Logo">
-</div>
-<div class="app-name">Sahifasal</div>
-</div>
+  
+  <div class="wrapper">
+    <div class="setup-card">
+      <h2>Farm Setup</h2>
+      <p class="subtitle">Help us personalize crop recommendations for you</p>
 
+      <div class="grid">
+        
+        <div class="form-group">
+          <label>Farm Size (Acres)</label>
+          <input type="number" placeholder="e.g. 5" value="5">
+        </div>
+        
+        <div class="form-group">
+          <label>Soil Type</label>
+          <select>
+            <option>Select Soil</option>
+            <option>Black Soil</option>
+            <option>Red Soil</option>
+            <option>Alluvial Soil</option>
+            <option>Sandy Soil</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Main Water Source</label>
+          <select>
+            <option>Canal</option>
+            <option>Borewell</option>
+            <option>Rain-fed</option>
+            <option>River</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Primary Crop</label>
+          <select>
+            <option>Wheat</option>
+            <option>Maize</option>
+            <option>Soybean</option>
+            <option>Cotton</option>
+          </select>
+        </div>
+       
+        <div class="form-group">
+          <label>Farming Experience (Years)</label>
+          <input type="number" placeholder="e.g. 10" value="8">
+        </div>
+        
+        <div class="form-group">
+          <label>Preferred Market Distance (km)</label>
+          <input type="number" placeholder="e.g. 25" value="20">
+        </div>
+      </div> 
 
-<div class="wrapper">
+      <div class="btn-area">
+        <button class="btn skip" onclick="location.href='dashboard.html'">Skip Setup</button>
+        <button class="btn primary" onclick="location.href='dashboard.html'">Save & Continue</button>
+      </div>
+    </div> 
+  </div> 
 
-<div class="setup-card">
-
-<h2>Farm Setup</h2>
-<p class="subtitle">Help us personalize crop recommendations for you</p>
-
-<div class="grid">
-
-<div class="form-group">
-<label>Farm Size (Acres)</label>
-<input type="number" placeholder="e.g. 5">
-</div>
-
-<div class="form-group">
-<label>Soil Type</label>
-<select>
-<option>Select Soil</option>
-<option>Black Soil</option>
-<option>Red Soil</option>
-<option>Alluvial Soil</option>
-<option>Sandy Soil</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Main Water Source</label>
-<select>
-<option>Canal</option>
-<option>Borewell</option>
-<option>Rain-fed</option>
-<option>River</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Primary Crop</label>
-<select>
-<option>Wheat</option>
-<option>Maize</option>
-<option>Soybean</option>
-<option>Cotton</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Farming Experience (Years)</label>
-<input type="number" placeholder="e.g. 10">
-</div>
-
-<div class="form-group">
-<label>Preferred Market Distance (km)</label>
-<input type="number" placeholder="e.g. 25">
-</div>
-
-</div>
-
-<div class="btn-area">
-<button class="btn skip" onclick="location.href='dashboard.html'">
-Skip Setup
-</button>
-
-<button class="btn primary" onclick="location.href='dashboard.html'">
-Save & Continue
-</button>
-</div>
-
-</div>
-
-</div>
-
-<div class="footer">
-© 2026 Sahifasal — Farm Intelligence Setup
-</div>
-
+  <div class="footer">
+    © 2026 Sahifasal — Farm Intelligence Setup
+  </div>
 </body>
 </html>
