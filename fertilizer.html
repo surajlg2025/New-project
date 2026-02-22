@@ -391,19 +391,17 @@
       letter-spacing: -0.02em;
     }
 
-    /* push container down so it's not hidden under fixed topbar */
+    
     .container {
-      margin-top: 70px;       /* new – but does not alter any previous rule, just adds */
+      margin-top: 70px;      
     }
 
-    /* ensure body padding still works fine (we keep original body padding) */
     body {
-      padding-top: 0;         /* because topbar is fixed, we remove extra padding from body */
-      display: block;         /* override flex centering – but we need container centered */
-      /* we still want container centered, so adjust */
+      padding-top: 0;         
+      display: block;        
     }
 
-    //
+    
     body {
       display: block;
     }
